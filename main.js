@@ -30,7 +30,7 @@ function getLocation() {
 
 
 function getWeatherData(lat, long){
-  $.get("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+long+"&APPID=d03abe95d979d9a08ace2336a67520c4",
+  $.get(`https://vast-hollows-78143.herokuapp.com${lat}/${long}`,
    function(data){
      populatePage(data)
      $loading.hide()
