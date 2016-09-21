@@ -1,7 +1,6 @@
-console.log('hit');
+
 //d03abe95d979d9a08ace2336a67520c4
 
-$( "body" ).append( "<p>Test</p>" );
 
 if (sessionStorage.getItem('location')) {
   var geolocation = JSON.parse(sessionStorage.getItem('location'))
@@ -38,10 +37,46 @@ function getWeatherData(lat, long){
 }
 
 function populatePage(data){
-  var currentTemp = Math.round(1.8*(data.list[0].main.temp - 273)+32)
-  console.log(data);
+  var weatherObj = getMaxMin(data.list)
+  var objectKeys  = Object.keys(weatherObj)
+  var currentTemp = toFahrenheit(data.list[0].main.temp)
   $('.current').append(`<h1>${data.city.name}</h1>`)
   $('.current').append(`<i class="owf owf-5x owf-${data.list[0].weather[0].id}"></i>`)
   $('.current').append(`<h2>${currentTemp} F</h2>`)
-  console.log(data.list[0]);
+
+  for (var i = 0; i < objectKeys.length; i++) {
+    array[i]
+  }
+}
+
+
+function getMaxMin(arr){
+  var obj = {}
+  for (var i = 0; i < arr.length; i++) {
+    var date = arr[i].dt_txt.split(' ')[0]
+    console.log(arr[i].dt_txt.split(' ')[1]);
+    if (obj[date]) {
+      if (obj[date].max<arr[i].main.temp) {
+        obj[date].max = arr[i].main.temp
+      } else if(obj[date].min>arr[i].main.temp){
+        obj[date].min = arr[i].main.temp
+      } else if(arr[i].dt_txt.split(' ')[1].trim() == '12:00:00'){
+        console.log('hit');
+        obj[date].description = arr[i].weather[0].description
+        obj[date].icon_id = arr[i].weather[0].id
+      }
+    }else{
+      obj[date]={
+        min: arr[i].main.temp_min,
+        max: arr[i].main.temp_max,
+        description: arr[i].weather[0].description,
+        icon_id:arr[i].weather[0].id
+      }
+    }
+  }
+  return obj
+}
+
+toFahrenheit(temp){
+  return Math.round(1.8*(temp - 273)+32)
 }
