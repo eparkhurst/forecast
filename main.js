@@ -37,7 +37,7 @@ function getWeatherData(lat, long){
 }
 
 function populatePage(data){
-  var weatherObj = getMaxMin(data.list)
+  var weatherObj = reformat(data.list)
   var objectKeys  = Object.keys(weatherObj)
   var currentTemp = toFahrenheit(data.list[0].main.temp)
   $('.current').append(`<h1>${data.city.name}</h1>`)
@@ -45,16 +45,20 @@ function populatePage(data){
   $('.current').append(`<h2>${currentTemp} F</h2>`)
 
   for (var i = 0; i < objectKeys.length; i++) {
-    array[i]
+    var max = Math.round(toFahrenheit(weatherObj[objectKeys[i]].max))
+    var min = Math.round(toFahrenheit(weatherObj[objectKeys[i]].min))
+    $('.forecast').append(`<h1>${weatherObj[objectKeys[i]].dow}</h1>`)
+    $('.forecast').append(`<i class="owf owf-5x owf-${weatherObj[objectKeys[i]].icon_id}"></i>`)
+    $('.forecast').append(`<h2>${max}/${min} F</h2>`)
   }
 }
 
 
-function getMaxMin(arr){
+function reformat(arr){
   var obj = {}
+  var daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   for (var i = 0; i < arr.length; i++) {
     var date = arr[i].dt_txt.split(' ')[0]
-    console.log(arr[i].dt_txt.split(' ')[1]);
     if (obj[date]) {
       if (obj[date].max<arr[i].main.temp) {
         obj[date].max = arr[i].main.temp
@@ -66,7 +70,10 @@ function getMaxMin(arr){
         obj[date].icon_id = arr[i].weather[0].id
       }
     }else{
+      var d = new Date(arr[i].dt_txt)
+      console.log(arr[i].dt_txt);
       obj[date]={
+        dow: daysOfWeek[d.getDay()],
         min: arr[i].main.temp_min,
         max: arr[i].main.temp_max,
         description: arr[i].weather[0].description,
@@ -74,9 +81,10 @@ function getMaxMin(arr){
       }
     }
   }
+  console.log(obj);
   return obj
 }
 
-toFahrenheit(temp){
+function toFahrenheit(temp){
   return Math.round(1.8*(temp - 273)+32)
 }
