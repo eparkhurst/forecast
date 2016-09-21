@@ -47,9 +47,11 @@ function populatePage(data){
   for (var i = 0; i < objectKeys.length; i++) {
     var max = Math.round(toFahrenheit(weatherObj[objectKeys[i]].max))
     var min = Math.round(toFahrenheit(weatherObj[objectKeys[i]].min))
-    $('.forecast').append(`<h1>${weatherObj[objectKeys[i]].dow}</h1>`)
-    $('.forecast').append(`<i class="owf owf-5x owf-${weatherObj[objectKeys[i]].icon_id}"></i>`)
-    $('.forecast').append(`<h2>${max}/${min} F</h2>`)
+    $('.forecast').append(`<div class="day">
+        <h2>${weatherObj[objectKeys[i]].dow}</h2>
+        <i class="owf owf-5x owf-${weatherObj[objectKeys[i]].icon_id}"></i>
+        <h2>${max}/${min} F</h2>
+      </div>`)
   }
 }
 

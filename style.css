@@ -4,4 +4,17 @@ body{
 .current{
   text-align: center;
   margin: auto;
+  margin-bottom: 100px;
+}
+.day{
+  width:19vw;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin: auto;
+}
+@media (max-width: 800px) {
+  .day{
+    width:90vw;
+  }
 }
