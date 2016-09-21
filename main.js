@@ -45,7 +45,7 @@ function populatePage(data){
   $('.current').append(`<i class="owf owf-5x owf-${data.list[0].weather[0].id}"></i>`)
   $('.current').append(`<h2>${currentTemp} &#8457</h2>`)
 
-  for (var i = 0; i < objectKeys.length; i++) {
+  for (var i = 0; i < 5; i++) {
     var max = Math.round(toFahrenheit(weatherObj[objectKeys[i]].max))
     var min = Math.round(toFahrenheit(weatherObj[objectKeys[i]].min))
     $('.forecast').append(`<div class="day">
@@ -60,7 +60,7 @@ function populatePage(data){
 
 function reformat(arr){
   var obj = {}
-  var daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  var daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
   for (var i = 0; i < arr.length; i++) {
     var date = arr[i].dt_txt.split(' ')[0]
     if (obj[date]) {
@@ -74,6 +74,8 @@ function reformat(arr){
       }
     }else{
       var d = new Date(arr[i].dt_txt.split(' ')[0])
+      console.log(arr[i].dt_txt);
+      console.log(d.getDay());
       obj[date]={
         dow: daysOfWeek[d.getDay()],
         min: arr[i].main.temp_min,
