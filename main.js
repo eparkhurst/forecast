@@ -32,6 +32,7 @@ function getLocation() {
 function getWeatherData(lat, long){
   $.get("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+long+"&APPID=d03abe95d979d9a08ace2336a67520c4",
    function(data){
+     console.log(data);
      populatePage(data)
   })
 }
@@ -42,7 +43,7 @@ function populatePage(data){
   var currentTemp = toFahrenheit(data.list[0].main.temp)
   $('.current').append(`<h1>${data.city.name}</h1>`)
   $('.current').append(`<i class="owf owf-5x owf-${data.list[0].weather[0].id}"></i>`)
-  $('.current').append(`<h2>${currentTemp} F</h2>`)
+  $('.current').append(`<h2>${currentTemp} &#8457</h2>`)
 
   for (var i = 0; i < objectKeys.length; i++) {
     var max = Math.round(toFahrenheit(weatherObj[objectKeys[i]].max))
@@ -50,7 +51,8 @@ function populatePage(data){
     $('.forecast').append(`<div class="day">
         <h2>${weatherObj[objectKeys[i]].dow}</h2>
         <i class="owf owf-5x owf-${weatherObj[objectKeys[i]].icon_id}"></i>
-        <h2>${max}/${min} F</h2>
+        <h3>${weatherObj[objectKeys[i]].description}</h3>
+        <h3>${max}/${min} &#8457 </h3>
       </div>`)
   }
 }
@@ -72,8 +74,9 @@ function reformat(arr){
         obj[date].icon_id = arr[i].weather[0].id
       }
     }else{
-      var d = new Date(arr[i].dt_txt)
+      var d = new Date(arr[i].dt_txt.split(' ')[0])
       console.log(arr[i].dt_txt);
+      console.log(daysOfWeek[d.getDay()]);
       obj[date]={
         dow: daysOfWeek[d.getDay()],
         min: arr[i].main.temp_min,

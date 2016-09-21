@@ -1,13 +1,29 @@
 body{
   background-color: lightblue;
+  font-family: sans-serif;
+  color: white;
 }
 .current{
   text-align: center;
+  width:300px;
+  border: 10px solid white;
+  color: white;
   margin: auto;
   margin-bottom: 100px;
 }
+i{
+  color: white;
+}
+.forecast{
+  margin: auto;
+  text-align: center;
+}
 .day{
-  width:19vw;
+  /*border-top: 10px solid white;
+  border-bottom: 10px solid white;
+  border-left: 5px solid white;
+  border-right: 5px solid white;*/
+  width:17vw;
   display: inline-block;
   vertical-align: top;
   text-align: center;
@@ -15,6 +31,6 @@ body{
 }
 @media (max-width: 800px) {
   .day{
-    width:90vw;
+    width:95vw;
   }
 }
