@@ -33,6 +33,15 @@ function getLocation() {
 function getWeatherData(lat, long){
   $.get("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+long+"&APPID=d03abe95d979d9a08ace2336a67520c4",
    function(data){
-    console.log(data.list);
+     populatePage(data)
   })
+}
+
+function populatePage(data){
+  var currentTemp = Math.round(1.8*(data.list[0].main.temp - 273)+32)
+  console.log(data);
+  $('.current').append(`<h1>${data.city.name}</h1>`)
+  $('.current').append(`<i class="owf owf-5x owf-${data.list[0].weather[0].id}"></i>`)
+  $('.current').append(`<h2>${currentTemp} F</h2>`)
+  console.log(data.list[0]);
 }
