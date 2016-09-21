@@ -15,10 +15,11 @@ if (sessionStorage.getItem('location')) {
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-          getWeatherData(position.coords.latitude, position.coords.longitude)
+          console.log(position);
+          getWeatherData(position.coords.latitude.toFixed(4), position.coords.longitude.toFixed(4))
           var loc = {
-            lat:position.coords.latitude,
-            lng:position.coords.longitude
+            lat:position.coords.latitude.toFixed(4),
+            lng:position.coords.longitude.toFixed(4)
           }
           sessionStorage.setItem('location', JSON.stringify(loc));
         });
@@ -30,9 +31,10 @@ function getLocation() {
 
 
 function getWeatherData(lat, long){
-  $.get(`https://vast-hollows-78143.herokuapp.com${lat}/${long}`,
+  $.get(`https://vast-hollows-78143.herokuapp.com/${lat}/${long}`,
    function(data){
-     populatePage(data)
+     console.log(JSON.parse(data.body));
+     populatePage(JSON.parse(data.body))
      $loading.hide()
   })
 }
