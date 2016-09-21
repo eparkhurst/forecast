@@ -74,8 +74,6 @@ function reformat(arr){
       }
     }else{
       var d = new Date(arr[i].dt_txt.split(' ')[0])
-      console.log(arr[i].dt_txt);
-      console.log(d.getDay());
       obj[date]={
         dow: daysOfWeek[d.getDay()],
         min: arr[i].main.temp_min,
