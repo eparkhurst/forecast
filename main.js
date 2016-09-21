@@ -1,6 +1,7 @@
 
 //d03abe95d979d9a08ace2336a67520c4
 
+var $loading = $('.gears').show();
 
 if (sessionStorage.getItem('location')) {
   var geolocation = JSON.parse(sessionStorage.getItem('location'))
@@ -20,11 +21,10 @@ function getLocation() {
             lng:position.coords.longitude
           }
           sessionStorage.setItem('location', JSON.stringify(loc));
-          console.log(position.coords);
         });
     } else {
-      console.log('No geolocation');
-        x.innerHTML = "Geolocation is not supported by this browser.";
+      console.log('No geolocation using New York, NY');
+      getWeatherData(40.7128, -74.0059)
     }
 }
 
@@ -32,8 +32,8 @@ function getLocation() {
 function getWeatherData(lat, long){
   $.get("http://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+long+"&APPID=d03abe95d979d9a08ace2336a67520c4",
    function(data){
-     console.log(data);
      populatePage(data)
+     $loading.hide()
   })
 }
 
@@ -69,14 +69,11 @@ function reformat(arr){
       } else if(obj[date].min>arr[i].main.temp){
         obj[date].min = arr[i].main.temp
       } else if(arr[i].dt_txt.split(' ')[1].trim() == '12:00:00'){
-        console.log('hit');
         obj[date].description = arr[i].weather[0].description
         obj[date].icon_id = arr[i].weather[0].id
       }
     }else{
       var d = new Date(arr[i].dt_txt.split(' ')[0])
-      console.log(arr[i].dt_txt);
-      console.log(daysOfWeek[d.getDay()]);
       obj[date]={
         dow: daysOfWeek[d.getDay()],
         min: arr[i].main.temp_min,
@@ -86,7 +83,6 @@ function reformat(arr){
       }
     }
   }
-  console.log(obj);
   return obj
 }
 

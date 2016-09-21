@@ -3,12 +3,20 @@ body{
   font-family: sans-serif;
   color: white;
 }
+.gears{
+  position: absolute;
+  top: 200px;
+  right:0;
+  left:0;
+  margin: auto;
+}
 .current{
   text-align: center;
   width:300px;
   border: 10px solid white;
   color: white;
   margin: auto;
+  margin-top:50px;
   margin-bottom: 100px;
 }
 i{
